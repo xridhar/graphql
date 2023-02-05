@@ -6,3 +6,8 @@ graphQL steps:
 5. create "app.js" inside "server" folder
 6. install "graphql" and "express-graphql"
 7. install "nodemon" globally for watching server
+
+
+NOTE:
+
+use "nodemon app" to run the local server
