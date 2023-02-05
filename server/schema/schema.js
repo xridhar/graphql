@@ -32,6 +32,7 @@ const {
     GraphQLID,
     GraphQLString,
     GraphQLInt,
+    GraphQLList,
     GraphQLSchema
 } = graphql
 
@@ -46,14 +47,14 @@ const UserType = new GraphQLObjectType({
         profession: {type: GraphQLString},
 
         posts: {
-            type: new graphql.GraphQLList(PostType),
+            type: new GraphQLList(PostType),
             resolve(parent, args) {
                 return _.filter(postData, {userId: parent.id});
             }
         },
 
         hobbies : {
-            type: new graphql.GraphQLList(HobbyType),
+            type: new GraphQLList(HobbyType),
             resolve(parent, args) {
                 return _.filter(hobbyData, {userId: parent.id});
             }
@@ -105,22 +106,18 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: GraphQLString}},
 
             resolve(parent, args) {
-
                 return _.find(usersData, {id: args.id})
-                // we resolve with data
-                // get and return data from a datasource
-
-                /*
-                EXAMPLE QUERY
-                {
-                    user(id: "1") {
-                        name
-                    }
-                }
-                */
-
+          
             }
         },
+
+        users: {
+            type: new GraphQLList(UserType),
+            resolve(parent, args) {
+                return usersData;
+            }
+        },
+
         hobby: {
             type: HobbyType,
             args: {id: {type: GraphQLID}},
@@ -131,6 +128,13 @@ const RootQuery = new GraphQLObjectType({
             }
         },
 
+        hobbies: {
+            type: new GraphQLList(HobbyType),
+            resolve(parent, args) {
+                return hobbyData;
+            }
+        },
+
         post: {
             type: PostType,
             args: {id: {type: GraphQLID}},
@@ -138,12 +142,80 @@ const RootQuery = new GraphQLObjectType({
                 //return data (post data)
                 return _.find(postData, {id: args.id})
             }
-        }
+        },
+
+        posts: {
+            type: new GraphQLList(PostType),
+            resolve(parent, args) {
+                return postData;
+            }
+        },
 
 
     }
 });
 
+// Mutations
+
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        // Todo: Create User Mutation
+        createUser: {
+            type: UserType,
+            args: {
+                // id: { type: GraphQLID },
+                name: { type: GraphQLString },
+                age: { type:GraphQLInt },
+                profession: { type: GraphQLString },
+            },
+            resolve(parent, args) {
+                let user = {
+                    name: args.name,
+                    age: args.age,
+                    profession: args.profession
+                };
+                return user;
+            }
+        },
+        // Todo: Create POST Mutation
+        createPost: {
+            type: PostType,
+            args: {
+                // id: { type: GraphQLID },
+                comment: { type: GraphQLString },
+                userId: { type:GraphQLID }
+            },
+            resolve(parent, args) {
+                let post = {
+                    comment: args.comment,
+                    userId: args.userId
+                };
+                return post;
+            }
+        },
+        // Todo: Create Hobby Mutation
+        createHobby: {
+            type: HobbyType,
+            args: {
+                // id: { type: GraphQLID },
+                title: { type: GraphQLString },
+                description: { type: GraphQLString },
+                userId: { type:GraphQLID }
+            },
+            resolve(parent, args) {
+                let hobby = {
+                    title: args.title,
+                    description: args.description,
+                    userId: args.userId
+                };
+                return hobby;
+            }
+        },
+    }
+});
+
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 })
