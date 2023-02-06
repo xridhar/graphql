@@ -1,0 +1,7 @@
+{
+    "env": {
+        "mongoDatabase": "testing",
+        "mongoUserName": "sridharswaminath",
+        "mongoUserPassword": "Z4Stgu42S7CEK2Ua"
+    }
+}
