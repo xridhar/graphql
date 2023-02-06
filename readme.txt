@@ -7,7 +7,7 @@ graphQL steps:
 6. install "graphql" and "express-graphql"
 7. install "nodemon" globally for watching server
 
-8. Finally have to upload the file in Heroku
+8. Finally have to upload the file in Heroku application
 
 NOTE:
 
