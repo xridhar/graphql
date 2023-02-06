@@ -5,30 +5,6 @@ const User = require("../model/user");
 const Hobby = require("../model/hobby");
 const Post = require("../model/post");
 
-// DUMMY DATA
-// var usersData = [
-//     {id: '1', name: 'Bond', age: 36, profession: "Software Engineer"},
-//     {id: '13', name: 'Anna', age: 26, profession: "Civil Engineer"},
-//     {id: '211', name: 'Bella', age: 16, profession: "Programmer"},
-//     {id: '19', name: 'Gina', age: 26, profession: "Data Manager"},
-//     {id: '150', name: 'Georgina', age: 36, profession: "Baker"}
-// ];
-
-// var hobbyData = [
-//     {id: '1', title: 'Programming', description: "Software Engineer", userId: '1'},
-//     {id: '2', title: 'Anna', description: "Civil Engineer", userId: '13'},
-//     {id: '3', title: 'Bella', description: "Programmer", userId: '19'},
-//     {id: '4', title: 'Gina', description: "Data Manager", userId: '19'},
-//     {id: '5', title: 'Georgina', description: "cooking", userId: '150'}
-
-// ];
-
-// var postData = [
-//     {id: '1', comment: "Building a Mind", userId: '1'},
-//     {id: '2', comment: "GraphQL is Amazing", userId: '1'},
-//     {id: '3', comment: "Change the world 1", userId: '19'},
-
-// ];
 
 const {
     GraphQLObjectType,
@@ -79,7 +55,7 @@ const HobbyType = new GraphQLObjectType({
             type: UserType,
             resolve(parent, args) {
                 // return _.find(usersData, {id: parent.userId})
-                return User.find({ id: parent.userId })
+                return User.find({ id: parent?.userId })
             }
         }
     })
@@ -123,7 +99,7 @@ const RootQuery = new GraphQLObjectType({
         users: {
             type: new GraphQLList(UserType),
             resolve(parent, args) {
-                return User;
+                return User.find();
             }
         },
 
@@ -132,7 +108,8 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: GraphQLID}},
 
             resolve(parent, args) {
-                return _.find(hobbyData, {id: args.id})
+                // return _.find(hobbyData, {id: args.id})
+                return Hobby.find({id: args.id})
                 //return data for our hobby
             }
         },
@@ -140,7 +117,7 @@ const RootQuery = new GraphQLObjectType({
         hobbies: {
             type: new GraphQLList(HobbyType),
             resolve(parent, args) {
-                return hobbyData;
+                return Hobby.find();
             }
         },
 
@@ -157,7 +134,7 @@ const RootQuery = new GraphQLObjectType({
         posts: {
             type: new GraphQLList(PostType),
             resolve(parent, args) {
-                return Post;
+                return Post.find();
             }
         },
 
