@@ -192,6 +192,22 @@ const Mutation = new GraphQLObjectType({
                 ))
             }
         },
+
+        //Remove User
+
+        RemoveUser: {
+            type: UserType,
+            args: {
+                id: { type: GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                let removedUser = User.findByIdAndRemove(args.id).exec();
+                if (!removedUser) {
+                    throw new "Error"()
+                }
+                return removedUser;
+            }
+        },
         // Todo: Create POST Mutation
         createPost: {
             type: PostType,
@@ -231,6 +247,22 @@ const Mutation = new GraphQLObjectType({
             }
         },
 
+         //Remove Post
+
+         RemovePost: {
+            type: PostType,
+            args: {
+                id: { type: GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                let removedPost = Post.findByIdAndRemove(args.id).exec();
+                if (!removedPost) {
+                    throw new "Error"()
+                }
+                return removedPost;
+            }
+        },
+
 
         // Todo: Create Hobby Mutation
         createHobby: {
@@ -260,7 +292,7 @@ const Mutation = new GraphQLObjectType({
                 description: { type: GraphQLNonNull(GraphQLString) }
             },
             resolve(parent, args) {
-                return (UpdateHobby = Hobby.findByIdAndUpdate(
+                return (updatedHobby = Hobby.findByIdAndUpdate(
                     args.id, 
                     {
                         $set: {
@@ -272,6 +304,22 @@ const Mutation = new GraphQLObjectType({
                         new: true 
                     }// send back the updated object type
                 ))
+            }
+        },
+
+        //Remove Hobby
+
+        RemoveHobby: {
+            type: HobbyType,
+            args: {
+                id: { type: GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                let removedHobby = Hobby.findByIdAndRemove(args.id).exec();
+                if (!removedHobby) {
+                    throw new "Error"()
+                }
+                return removedHobby;
             }
         },
     }
