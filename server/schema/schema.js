@@ -99,7 +99,7 @@ const RootQuery = new GraphQLObjectType({
         users: {
             type: new GraphQLList(UserType),
             resolve(parent, args) {
-                return User.find();
+                return User.find({});
             }
         },
 
@@ -117,7 +117,7 @@ const RootQuery = new GraphQLObjectType({
         hobbies: {
             type: new GraphQLList(HobbyType),
             resolve(parent, args) {
-                return Hobby.find();
+                return Hobby.find({});
             }
         },
 
@@ -134,7 +134,7 @@ const RootQuery = new GraphQLObjectType({
         posts: {
             type: new GraphQLList(PostType),
             resolve(parent, args) {
-                return Post.find();
+                return Post.find({});
             }
         },
 
